@@ -55,8 +55,7 @@ group by customers;
 with products_ordered as (
 select sales.customer_id,sales.order_date, menu.product_id,menu.product_name,
 row_number() over(partition by sales.customer_id order by sales.order_date ) as roww
- from menu
-join sales
+from menu join sales
 on sales.product_id=menu.product_id
 )
 
@@ -66,7 +65,8 @@ where roww =1;
 > 4. What is the most purchased item on the menu and how many times was it purchased by all customers?
 
 ```
-select sl.product_id,me.product_name,count(sl.product_id) as Total_ordered_quantity from sales as sl join menu as me 
+select sl.product_id,me.product_name,count(sl.product_id) as Total_ordered_quantity
+from sales as sl join menu as me 
 on me.product_id=sl.product_id
 group by sl.product_id,me.product_name;
 ```
@@ -92,7 +92,7 @@ count(product_id) =
 
 WITH member_orders AS (
   SELECT sl.customer_id, order_date, product_name,
-         ROW_NUMBER() OVER (PARTITION BY sl.customer_id ORDER BY order_date) AS order_rank
+  ROW_NUMBER() OVER (PARTITION BY sl.customer_id ORDER BY order_date) AS order_rank
   FROM sales AS sl
   JOIN members AS mem ON mem.customer_id = sl.customer_id
   JOIN menu AS men ON men.product_id = sl.product_id
@@ -173,7 +173,8 @@ order by 1;
 ```
 
 > Combinig all the DataSets and checking they're **membership status** for each order.
- 
+```
+
 select sl.customer_id,sl.order_date,men.product_name,men.price,
 case when mem.customer_id=sl.customer_id and sl.order_date >= mem.join_date then "Y" else "N" end as members
 from sales as sl 
@@ -181,7 +182,7 @@ left join members as mem
 on sl.customer_id=mem.customer_id
 left join menu as men
 on men.product_id=sl.product_id;
- 
+``` 
 
 
 
