@@ -16,3 +16,4 @@ Overall, this project provides **valuable insights** into customer behavior and 
 * **members**
 
 ## Entity Relationship Diagram
+![ER_Dig](https://user-images.githubusercontent.com/108252662/233406294-29077925-57ed-4121-b68d-ab9fd1459769.png)
