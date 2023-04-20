@@ -36,17 +36,21 @@ The final **members table** captures the _join_date_ when a _customer_id_ joined
 
 > 1. What is the total amount each customer spent at the restaurant?
 
-select sales.customer_id as customers,sum(menu.price) as spent_amount
+```select sales.customer_id as customers,sum(menu.price) as spent_amount
 from sales left join menu
 on sales.product_id=menu.product_id
-group by customers;
+group by customers;```
 
 > 2. How many days has each customer visited the restaurant?
+
+```
 select sales.customer_id as customers,count(sales.order_date) days_visited
 from sales
 group by customers;
-
+```
 > 3. What was the first item from the menu purchased by each customer?
+
+```
 with products_ordered as (
 select sales.customer_id,sales.order_date, menu.product_id,menu.product_name,
 row_number() over(partition by sales.customer_id order by sales.order_date ) as roww
@@ -57,11 +61,12 @@ on sales.product_id=menu.product_id
 
 select * from products_ordered
 where roww =1;
-
+```
 > 4. What is the most purchased item on the menu and how many times was it purchased by all customers?
-select sl.product_id,me.product_name,count(sl.product_id) as Total_ordered_quantity from sales as sl join menu as me 
+
+```select sl.product_id,me.product_name,count(sl.product_id) as Total_ordered_quantity from sales as sl join menu as me 
 on me.product_id=sl.product_id
-group by sl.product_id,me.product_name;
+group by sl.product_id,me.product_name;```
 
 > 5. Which item was the most popular for each customer?
 
