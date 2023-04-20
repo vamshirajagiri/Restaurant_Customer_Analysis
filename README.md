@@ -126,6 +126,9 @@ select * from last_purchase_before_membership;
 ```
  
 > 8. What is the total items and amount spent for each member before they became a member?
+
+```
+
 select sl.customer_id,count(sl.product_id),sum(price)from sales as sl
 join members as mem 
 on sl.customer_id=mem.customer_id
@@ -133,8 +136,12 @@ join menu as men on men.product_id=sl.product_id
 where sl.order_date<mem.join_date
 group by sl.customer_id
 order by sl.customer_id;
+```
 
 > 9.  If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how many points would each customer have?
+
+```
+
 with allocating_points as (
 select sl.customer_id,product_name,sum(men.price ) as spent_amnt,
 case when product_name="sushi" then sum(men.price )*10*2 else sum(men.price )*10 end as points
@@ -146,9 +153,12 @@ group by 1,2
 
 select customer_id,sum(points) as points from allocating_points
 group by customer_id;
+```
 
 > 10. In the first week after a customer joins the program (including their join date) they earn 2x points on all items,
 > not just sushi - how many points do customer A and B have at the end of January?
+
+```
 
 select sl.customer_id, sum(men.price*2) as poits from sales as sl
 join members as mem
@@ -160,7 +170,7 @@ and datediff(order_date,join_date)<=7
 and month(sl.order_date)=1
 group by 1
 order by 1;
-
+```
 
 > Combinig all the DataSets and checking they're **membership status** for each order.
  
